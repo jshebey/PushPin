@@ -25,3 +25,4 @@ kemetDielectricTable = [
   ['R', 'X7R'],
   ['P', 'X5R']
 ]
+
