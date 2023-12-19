@@ -191,3 +191,29 @@ yageoPowerTable = [
   ['2010', '0.75 W'],
   ['2512', '1 W']
 ]
+
+#Kamaya FRC series resistor decoding tables
+kamayaSizeTable = [
+  ['16', '0603'],
+  ['20', '0805'],
+  ['32', '1206']
+]
+
+kamayaPowerTable = [
+  ['0603', '0.063 W'],
+  ['0805', '0.1 W'],
+  ['1206', '0.125 W']
+]
+
+kamayaVoltageTable = [
+  ['0603', '1.79 V'],
+  ['0805', '2.26 V'],
+  ['1206', '3.53 V']
+]
+
+kamayaToleranceTable = [
+  ['B', '± 0.1 %'],
+  ['D', '± 0.5 %'],
+  ['F', '± 1 %'],
+  ['J', '± 5 %']
+]
