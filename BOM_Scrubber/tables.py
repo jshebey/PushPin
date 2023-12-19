@@ -232,16 +232,36 @@ susumuToleranceTable = [
   ['F', '± 1 %']
 ]
 
-kamayaPowerTable = [
+susumuPowerTable = [
   ['0201', '0.05 W'],
   ['0402', '0.063 W'],
   ['0603', '0.063 W'],
   ['0805', '0.1 W']
 ]
 
-kamayaVoltageTable = [
+susumuVoltageTable = [
   ['0201', '15 V'],
   ['0402', '25 V'],
   ['0603', '75 V'],
   ['0805', '100 V']
+]
+
+#Bourns CRM series resistor decoding tables
+bournsToleranceTable = [
+  ['F', '± 1 %'],
+  ['J', '± 5 %']
+]
+
+bournsVoltageTable = [
+  ['0805', '150 V'],
+  ['1206', '200 V'],
+  ['2010', '200 V'],
+  ['2512', '300 V']
+]
+
+bournsPowerTable = [
+  ['0805', '0.25  W'],
+  ['1206', '0.5 W'],
+  ['2010', '1 W'],
+  ['2512', '2 W']
 ]
