@@ -217,3 +217,31 @@ kamayaToleranceTable = [
   ['F', '± 1 %'],
   ['J', '± 5 %']
 ]
+
+#Susumu RR series resistor decoding tables
+susumuSizeTable = [
+  ['0306', '0201'],
+  ['0510', '0402'],
+  ['0816', '0603'],
+  ['1220', '0805']
+]
+
+susumuToleranceTable = [
+  ['B', '± 0.1 %'],
+  ['D', '± 0.5 %'],
+  ['F', '± 1 %']
+]
+
+kamayaPowerTable = [
+  ['0201', '0.05 W'],
+  ['0402', '0.063 W'],
+  ['0603', '0.063 W'],
+  ['0805', '0.1 W']
+]
+
+kamayaVoltageTable = [
+  ['0201', '15 V'],
+  ['0402', '25 V'],
+  ['0603', '75 V'],
+  ['0805', '100 V']
+]
