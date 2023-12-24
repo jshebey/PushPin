@@ -1,4 +1,4 @@
-#KEMET capacitor decoding tables
+#KEMET MLCC capacitor decoding tables
 kemetToleranceTable = [
   ['B', '± 0.10 pF'],
   ['C', '± 0.25 pF'],
@@ -26,7 +26,7 @@ kemetDielectricTable = [
   ['P', 'X5R']
 ]
 
-#Meritek capacitor decoding tables
+#Meritek MA capacitor decoding tables
 meritekToleranceTable = [
   ['A', '± 0.05 pF'],
   ['B', '± 0.10 pF'],
@@ -48,7 +48,7 @@ meritekDielectricTable = [
   ['YV', 'Y5V']
 ]
 
-#TDK capacitor decoding tables
+#TDK C capacitor decoding tables
 tdkToleranceTable = [
   ['B', '± 0.10 pF'],
   ['C', '± 0.25 pF'],
@@ -71,7 +71,7 @@ tdkVoltageTable = [
   ['1N', '75 V']
 ]
 
-#AVX capacitor decoding tables
+#AVX KAM capacitor decoding tables
 avxToleranceTable = [
   ['B', '± 0.10 pF'],
   ['C', '± 0.25 pF'],
@@ -118,7 +118,7 @@ avxSizeTable = [
   ['55', '2220']
 ]
 
-#Darfon capacitor decoding tables
+#Darfon MLCC capacitor decoding tables
 darfonToleranceTable = [
   ['A', '± 0.05 pF'],
   ['B', '± 0.10 pF'],

@@ -1,37 +1,55 @@
 class Part:
     def __init__(self, part_number):
         self.part_number = part_number
-        self.manufactuer = None
+        self.manufacturer = None
         self.resistance = None
         self.capacitance = None
         self.tolerance = None
         self.voltage = None
         self.size = None
+        self.power = None
+        self.dielectric = None
 
-    def decode(self):
-        self.find_manufacturer()
-        self.find_resistance()
-        self.find_capacitance()
-        self.find_tolerance()
-        self.find_voltage()
-        self.find_size()
-    
-    def find_manufacturer(self):
-        pass
-    
-    def find_resistance(self):
-        pass
-    
-    def find_capacitance(self):
+    def find_res_manufacturer(self):
         pass
 
-    def find_tolerance(self):
+    def find_cap_manufacturer(self):
+        pass
+
+    def res_decode(self):
+        pass
+
+    def cap_decode(self):
         pass
     
-    def find_voltage(self):
+    def yageo_RC_L_decode(self):
         pass
-    
-    def find_size(self):
+
+    def kamaya_FRC_decode(self):
+        pass
+
+    def susumu_RR_decode(self):
+        pass
+
+    def bourns_CRM_decode(self):
+        pass
+
+    def koa_RK73H_decode(self):
+        pass
+
+    def kemet_MLCC_decode(self):
+        pass
+
+    def meritek_MA_decode(self):
+        pass
+
+    def tdk_C_decode(self):
+        pass
+
+    def avx_KAM_decode(self):
+        pass
+
+    def darfon_MLCC_decode(self):
         pass
 
     def display_info(self):
