@@ -73,20 +73,55 @@ class Part:
             if(self.part_number[5] == 'X' or self.part_number[5] == 'N' or self.part_number[5] == 'C'):
                 if((self.part_number[6]).isnumeric() and (self.part_number[7]).isnumeric() and (self.part_number[8]).isnumeric()):
                     self.manufacturer = 'KEMET (MLCC series)'
-                    self.data = []
+                    self.data = [
+                        self.partNumber[1:5], 'N/A', 0,                    #size data 
+                        self.partNumber[9],  kemetToleranceTable, 1,       #tolerance data
+                        self.partNumber[11], kemetDielectricTable, 1,      #dielectric data
+                        self.partNumber[10], bournsVoltageTable, 1,        #voltage data
+                        self.partNumber[6:9]                               #capactiance
+                    ]
+
                 else:
                     if((self.part_number[9]).isalpha()):
                         self.manufacturer = 'TDK (C series)'
-                        self.data = []
+                        self.data = [
+                            self.partNumber[1:5], 'N/A', 0,                    #size data 
+                            self.partNumber[13], tdkToleranceTable, 1,         #tolerance data
+                            self.partNumber[5:8], 'N/A', 0,                    #dielectric data
+                            self.partNumber[8:10], tdkVoltageTable, 1,         #voltage data
+                            self.partNumber[10:13]                             #capactiance
+                        ]
+
                     else:
                         self.manufacturer = 'Dafron (MLCC series)'
-                        self.data = []
+                        self.data = [
+                            self.partNumber[1:5], darfonSizeTable, 1,          #size data 
+                            self.partNumber[11], darfonToleranceTable, 1,      #tolerance data
+                            self.partNumber[5:8], 'N/A', 0,                    #dielectric data
+                            self.partNumber[12], darfonVoltageTable, 1,        #voltage data
+                            self.partNumber[8:11]                              #capactiance
+                        ]
+                        
         elif(self.part_number[0:2] == 'MA'):
             self.manufacturer = 'Meritek (MA series)'
-            self.data = []
+            self.data = [
+                self.partNumber[2:6], 'N/A', 0,                    #size data 
+                self.partNumber[11], meritekToleranceTable, 1,     #tolerance data
+                self.partNumber[6:8], meritekDielectricTable, 1,   #dielectric data
+                self.partNumber[12:15], darfonVoltageTable, 1,     #voltage data
+                self.partNumber[8:11]                              #capactiance
+            ]
+
         elif(self.part_number[0:3] == 'KAM'):
             self.manufacturer = 'AVX (KAM series)'
-            self.data = []
+            self.data = [
+                self.partNumber[3:5], avxSizeTable, 1,             #size data 
+                self.partNumber[13], avxToleranceTable, 1,         #tolerance data
+                self.partNumber[6:8], avxDielectricTable, 1,       #dielectric data
+                self.partNumber[8:10], avxVoltageTable, 1,         #voltage data
+                self.partNumber[10:13]                             #capactiance
+            ]
+
         else:
             pass
 
