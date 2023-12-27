@@ -11,6 +11,7 @@ kemetToleranceTable = [
 ]
 
 kemetVoltageTable = [
+  ['9', '6.3 V'],
   ['8', '10 V'],
   ['4', '16 V'],
   ['3', '25 V'],
