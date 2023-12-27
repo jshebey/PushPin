@@ -14,6 +14,7 @@ class Part:
         self.dielectric = None
 
     def find_res_data(self):
+        #Determines which resistor family the part falls under
         if(self.partNumber[0:5] == 'RK73H'):
             self.manufacturer = 'KOA (RK73H series)'
             #[size string, size table, convert, tolerance string, tolerance table, convert, power string, power table, convert, voltage string, voltage table, convert, resistance string]
@@ -69,6 +70,7 @@ class Part:
             pass
 
     def find_cap_data(self):
+        #Determines which capacitor family the part falls under
         if(self.partNumber[0] == 'C'):
             if(self.partNumber[5] == 'X' or self.partNumber[5] == 'N' or self.partNumber[5] == 'C'):
                 if((self.partNumber[6]).isnumeric() and (self.partNumber[7]).isnumeric() and (self.partNumber[8]).isnumeric()):
@@ -126,51 +128,67 @@ class Part:
             pass
 
     def res_decode(self):
+        #Checks if the size code needs to be converted
         if(self.data[2]):
+            #Searches size table
             self.size = next((item[1] for item in self.data[1] if item[0] == self.data[0]), 'UNKNOWN')
         else:
             self.size = self.data[0]   
         
+        #Checks if the tolerance code needs to be converted
         if(self.data[5]):
+            #Searches tolerance table
             self.tolerance = next((item[1] for item in self.data[4] if item[0] == self.data[3]), 'UNKNOWN') 
         else:
             self.tolerance = self.data[3]  
-
+        
+        #Checks if the power code needs to be converted
         if(self.data[8]):
+            #Searches power table
             self.power = next((item[1] for item in self.data[7] if item[0] == self.data[6]), 'UNKNOWN') 
         else:
             self.power = self.data[6]
 
+        #Checks if the voltage code needs to be converted
         if(self.data[11]):
+            #Searches voltage table
             self.voltage = next((item[1] for item in self.data[10] if item[0] == self.data[9]), 'UNKNOWN') 
         else:
             self.voltage = self.data[9]   
 
-        print(self.partNumber + ': ' + self.size + ', ' + self.tolerance + ', ' + self.power + ', ' + self.voltage) 
+        print('Part Number: ' + self.partNumber + ', Size: ' + self.size + ', Tolerance: ' + self.tolerance + ', Power: ' + self.power + ', Voltage: ' + self.voltage) 
 
 
     def cap_decode(self):
+        #Checks if the size code needs to be converted
         if(self.data[2]):
+            #Searches size table
             self.size = next((item[1] for item in self.data[1] if item[0] == self.data[0]), 'UNKNOWN')
         else:
             self.size = self.data[0]   
         
+        #Checks if the tolerance code needs to be converted
         if(self.data[5]):
+            #Searches tolerance table
             self.tolerance = next((item[1] for item in self.data[4] if item[0] == self.data[3]), 'UNKNOWN') 
         else:
             self.tolerance = self.data[3]  
-
+        
+        #Checks if the dielectric code needs to be converted
         if(self.data[8]):
+            #Searches dielectric table
             self.dielectric = next((item[1] for item in self.data[7] if item[0] == self.data[6]), 'UNKNOWN') 
         else:
             self.dielectric = self.data[6]
 
+        #Checks if the voltage code needs to be converted
         if(self.data[11]):
+            #Searches voltage table
             self.voltage = next((item[1] for item in self.data[10] if item[0] == self.data[9]), 'UNKNOWN') 
         else:
             self.voltage = self.data[9]   
 
-        print('Part Number: ' self.partNumber + ', Size: ' self.size + ', Tolerance: ' + self.tolerance + ', Dielectric: ' + self.dielectric + ', Voltage: ' + self.voltage) 
+        print('Part Number: ' + self.partNumber + ', Size: ' + self.size + ', Tolerance: ' + self.tolerance + ', Dielectric: ' + self.dielectric + ', Voltage: ' + self.voltage) 
 
     def display_info(self):
         # Add a method to display information about the part
