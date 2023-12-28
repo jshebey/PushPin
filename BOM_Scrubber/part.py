@@ -23,7 +23,7 @@ class Part:
                 self.partNumber[15],  koaToleranceTable, 1,     #tolerance data
                 self.partNumber[5:7], koaPowerTable, 1,         #power data
                 self.partNumber[5:7], koaVoltageTable, 1,       #voltage data
-                self.partNumber[11:15]                          #resistance
+                self.partNumber[11:15], 0                       #resistance
             ]
 
         elif(self.partNumber[0:3] == 'FRC'):
@@ -33,37 +33,40 @@ class Part:
                 self.partNumber[11],  kamayaToleranceTable, 1,     #tolerance data
                 self.partNumber[3:5], kamayaPowerTable, 1,         #power data
                 self.partNumber[3:5], kamayaVoltageTable, 1,       #voltage data
-                self.partNumber[8:11]                              #resistance
+                self.partNumber[8:11], 0                           #resistance
             ]
 
         elif(self.partNumber[0:2] == 'RR'):
             self.manufacturer = 'Susumu (RR series)'
+            end = len(self.partNumber) - 2
             self.data = [
                 self.partNumber[2:6], susumuSizeTable, 1,          #size data 
                 self.partNumber[12],  susumuToleranceTable, 1,     #tolerance data
                 self.partNumber[2:6], susumuPowerTable, 1,         #power data
                 self.partNumber[2:6], susumuVoltageTable, 1,       #voltage data
-                self.partNumber[8:11]                              #resistance
+                self.partNumber[8:end], 0                           #resistance
             ]
 
         elif(self.partNumber[0:2] == 'RC'):
             self.manufacturer = 'YAGEO (RC_L series)'
+            end = len(self.partNumber) - 1
             self.data = [
                 self.partNumber[2:6], 'N/A', 0,                    #size data 
                 self.partNumber[6],  yageoToleranceTable, 1,       #tolerance data
                 self.partNumber[2:6], yageoPowerTable, 1,          #power data
                 self.partNumber[2:6], yageoVoltageTable, 1,        #voltage data
-                self.partNumber[11:15]                             #resistance
+                self.partNumber[11:end], 1                          #resistance
             ]
 
         elif(self.partNumber[0:3] == 'CRM'):
             self.manufacturer = 'Bourns (CRM series)'
+            end = len(self.partNumber) - 3
             self.data = [
                 self.partNumber[3:7], 'N/A', 0,                    #size data 
                 self.partNumber[8],  bournsToleranceTable, 1,      #tolerance data
                 self.partNumber[3:7], bournsPowerTable, 1,         #power data
                 self.partNumber[3:7], bournsVoltageTable, 1,       #voltage data
-                self.partNumber[11:15]                             #resistance
+                self.partNumber[11:end], 0                         #resistance
             ]
 
         else:
@@ -156,7 +159,55 @@ class Part:
         else:
             self.voltage = self.data[9]   
 
-        print('Part Number: ' + self.partNumber + ', Size: ' + self.size + ', Tolerance: ' + self.tolerance + ', Power: ' + self.power + ', Voltage: ' + self.voltage) 
+        #Logic for determining resistance
+        #When resistance code is 3, or 4 digits, and can have R (for decimals) and last digit is multiplier
+        if(self.data[13] == 0):
+            resistance = self.data[12]
+            if(len(resistance) == 3):
+                resistance = '0' + resistance
+            if(resistance[0] == 'R'):
+                self.resistance = int(resistance[1:4]) * (10 ** -3)
+            elif(resistance[1] == 'R'):
+                self.resistance = int(resistance[0]) + (int(resistance[2:4]) * 0.01)
+            elif(resistance[2] == 'R'):
+                self.resistance = int(resistance[0:2]) + (int(resistance[3]) * 0.1)
+            elif(resistance[3] == 'R'):
+                self.resistance = int(resistance[0:3])
+            else:
+                self.resistance = int(resistance[0:3]) * (10 ** int(resistance[3]))
+
+        #When resistance code is 2, 3, or 4 digits, and can have R (for decimals), K (for thousands), and M (for millions)
+        elif(self.data[13] == 1):
+            resistance = self.data[12]
+            if(len(resistance) == 2):
+                resistance = '00' + resistance
+            if(len(resistance) == 3):
+                resistance = '0' + resistance
+
+            if(resistance[1] == 'R'):
+                self.resistance = int(resistance[0]) + (int(resistance[2]) * 0.1) + (int(resistance[3]) * 0.01)
+            elif(resistance[2] == 'R'):
+                self.resistance = int(resistance[0:2]) + (int(resistance[3]) * 0.1)
+            elif(resistance[3] == 'R'):
+                self.resistance = int(resistance[0:3])
+            elif(resistance[1] == 'K'):
+                self.resistance = (int(resistance[0]) * 1000) + (int(resistance[2]) * 100) + (int(resistance[3]) * 10)
+            elif(resistance[2] == 'K'):
+                self.resistance = int(resistance[0:2]) * 1000 + (int(resistance[3]) * 100)
+            elif(resistance[3] == 'K'):
+                self.resistance = int(resistance[0:3]) * 1000
+            elif(resistance[1] == 'M'):
+                self.resistance = (int(resistance[0]) * 1000000) + (int(resistance[2]) * 100000) + (int(resistance[3]) * 10000)
+            elif(resistance[2] == 'M'):
+                self.resistance = int(resistance[0:2]) * 1000000 + (int(resistance[3]) * 100000)
+            elif(resistance[3] == 'M'):
+                self.resistance = int(resistance[0:3]) * 1000000
+            else:
+                self.resistance = int(resistance)
+        
+        self.resistance = str(self.resistance) + ' ohms'
+                
+        print('Part Number: ' + self.partNumber + ', Resistance: ' + self.resistance + ', Size: ' + self.size + ', Tolerance: ' + self.tolerance + ', Power: ' + self.power + ', Voltage: ' + self.voltage) 
 
 
     def cap_decode(self):
