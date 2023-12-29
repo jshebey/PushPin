@@ -82,7 +82,7 @@ class Part:
                         self.partNumber[1:5], 'N/A', 0,                    #size data 
                         self.partNumber[9],  kemetToleranceTable, 1,       #tolerance data
                         self.partNumber[11], kemetDielectricTable, 1,      #dielectric data
-                        self.partNumber[10], kemetVoltageTable, 1,        #voltage data
+                        self.partNumber[10], kemetVoltageTable, 1,         #voltage data
                         self.partNumber[6:9]                               #capactiance
                     ]
 
@@ -167,14 +167,24 @@ class Part:
                 resistance = '0' + resistance
             if(resistance[0] == 'R'):
                 self.resistance = int(resistance[1:4]) * (10 ** -3)
+                self.resistance = str(self.resistance) + ' ohms'
             elif(resistance[1] == 'R'):
                 self.resistance = int(resistance[0]) + (int(resistance[2:4]) * 0.01)
+                self.resistance = str(self.resistance) + ' ohms'
             elif(resistance[2] == 'R'):
                 self.resistance = int(resistance[0:2]) + (int(resistance[3]) * 0.1)
+                self.resistance = str(self.resistance) + ' ohms'
             elif(resistance[3] == 'R'):
                 self.resistance = int(resistance[0:3])
+                self.resistance = str(self.resistance) + ' ohms'
             else:
                 self.resistance = int(resistance[0:3]) * (10 ** int(resistance[3]))
+                if(int(resistance[3]) >= 6):
+                    self.resistance = str(round(self.resistance * (10 ** -6), 2)) + ' M ohms'
+                elif(int(resistance[3]) >= 3):
+                    self.resistance = str(round((self.resistance * (10 ** -3)), 2)) + ' K ohms'
+                else:
+                    self.resistance = str(self.resistance) + ' ohms'
 
         #When resistance code is 2, 3, or 4 digits, and can have R (for decimals), K (for thousands), and M (for millions)
         elif(self.data[13] == 1):
@@ -186,28 +196,36 @@ class Part:
 
             if(resistance[1] == 'R'):
                 self.resistance = int(resistance[0]) + (int(resistance[2]) * 0.1) + (int(resistance[3]) * 0.01)
+                self.resistance = str(self.resistance) + ' ohms'
             elif(resistance[2] == 'R'):
                 self.resistance = int(resistance[0:2]) + (int(resistance[3]) * 0.1)
+                self.resistance = str(self.resistance) + ' ohms'
             elif(resistance[3] == 'R'):
                 self.resistance = int(resistance[0:3])
+                self.resistance = str(self.resistance) + ' ohms'
             elif(resistance[1] == 'K'):
-                self.resistance = (int(resistance[0]) * 1000) + (int(resistance[2]) * 100) + (int(resistance[3]) * 10)
+                self.resistance = int(resistance[0]) * 1000 + (int(resistance[2]) * 100) + (int(resistance[3]) * 10)
+                self.resistance = str(round(self.resistance * (10 ** -3), 2)) + 'K ohms'
             elif(resistance[2] == 'K'):
                 self.resistance = int(resistance[0:2]) * 1000 + (int(resistance[3]) * 100)
+                self.resistance = str(round(self.resistance * (10 ** -3), 2)) + 'K ohms'
             elif(resistance[3] == 'K'):
                 self.resistance = int(resistance[0:3]) * 1000
+                self.resistance = str(round(self.resistance * (10 ** -3), 2)) + 'K ohms'
             elif(resistance[1] == 'M'):
                 self.resistance = (int(resistance[0]) * 1000000) + (int(resistance[2]) * 100000) + (int(resistance[3]) * 10000)
+                self.resistance = str(round(self.resistance * (10 ** -6), 2)) + 'M ohms'
             elif(resistance[2] == 'M'):
                 self.resistance = int(resistance[0:2]) * 1000000 + (int(resistance[3]) * 100000)
+                self.resistance = str(round(self.resistance * (10 ** -6), 2)) + 'M ohms'
             elif(resistance[3] == 'M'):
                 self.resistance = int(resistance[0:3]) * 1000000
+                self.resistance = str(round(self.resistance * (10 ** -6), 2)) + 'M ohms'
             else:
                 self.resistance = int(resistance)
-        
-        self.resistance = str(self.resistance) + ' ohms'
+                self.resistance = str(self.resistance) + ' ohms'
                 
-        print('Part Number: ' + self.partNumber + ', Resistance: ' + self.resistance + ', Size: ' + self.size + ', Tolerance: ' + self.tolerance + ', Power: ' + self.power + ', Voltage: ' + self.voltage) 
+        print('Part Number: ' + self.partNumber + ', Resistance: ' + str(self.resistance) + ', Size: ' + self.size + ', Tolerance: ' + self.tolerance + ', Power: ' + self.power + ', Voltage: ' + self.voltage) 
 
 
     def cap_decode(self):
@@ -238,10 +256,29 @@ class Part:
             self.voltage = next((item[1] for item in self.data[10] if item[0] == self.data[9]), 'UNKNOWN') 
         else:
             self.voltage = self.data[9]   
+        
+        #Logic for determining capacitance
+        #When capacitance code is 3, or 4 digits, and can have R (for decimals) and last digit is multiplier
+        capacitance = self.data[12]
+        if(len(capacitance) == 3):
+            capacitance = '0' + capacitance
+        if(capacitance[0] == 'R'):
+            self.capacitance = int(capacitance[1:4]) * (10 ** -3)
+            self.capacitance = str(self.capacitance) + ' pF'
+        elif(capacitance[1] == 'R'):
+            self.capacitance = int(capacitance[0]) + (int(capacitance[2:4]) * 0.01)
+            self.capacitance = str(self.capacitance) + ' pF'
+        elif(capacitance[2] == 'R'):
+            self.capacitance = int(capacitance[0:2]) + (int(capacitance[3]) * 0.1)
+            self.capacitance = str(self.capacitance) + ' pF'
+        elif(capacitance[3] == 'R'):
+            self.capacitance = int(capacitance[0:3])
+            self.capacitance = str(self.capacitance) + ' pF'
+        else:
+            self.capacitance = round(int(capacitance[0:3]) * (10 ** int(capacitance[3])), 2)
+            if(int(capacitance[3]) > 6):
+                self.capacitance = str(round(self.capacitance * (10 ** -6), 2)) + ' uF'
+            else:
+                self.capacitance = str(self.capacitance) + ' pF'
 
-        print('Part Number: ' + self.partNumber + ', Size: ' + self.size + ', Tolerance: ' + self.tolerance + ', Dielectric: ' + self.dielectric + ', Voltage: ' + self.voltage) 
-
-    def display_info(self):
-        # Add a method to display information about the part
-        print(f"Part Number: {self.partNumber}")
-        # Print other decoded information
+        print('Part Number: ' + self.partNumber + ', Capacitance: ' + str(self.capacitance) + ', Size: ' + self.size + ', Tolerance: ' + self.tolerance + ', Dielectric: ' + self.dielectric + ', Voltage: ' + self.voltage) 
