@@ -1,7 +1,7 @@
 from scrub import Scrub
 
-def main():
-    bom_file = "C:/Users/jsheb/PushPin/BOMs/BOM_1.xlsx"
+def main(file):
+    bom_file = str(file)
     bom = Scrub(bom_file)
     bom.process_bom()
 

@@ -14,7 +14,6 @@ directory = "C:\\Users\\jsheb\\PushPin"
 
 # Function for Selecting Files
 def open_file_dialog():
-    global files_to_save
     file_paths = filedialog.askopenfilenames(
         title = "Select a File", 
         filetypes = [
@@ -23,10 +22,12 @@ def open_file_dialog():
             ("All Files", "*.*")
         ]
     )
+    global files_to_save
     files_to_save = list(file_paths)
     num_files = len(file_paths)
     if files_to_save:
         file_counter.config(text = f"Number of Files: {num_files}")
+
 
 # Create Main Application Window
 app = tk.Tk()
@@ -46,7 +47,7 @@ upload_button = tk.Button(frame, text = "Click Here to Upload BOM", font = font_
 upload_button.pack(pady=10)
 
 # Add scrub button
-scrub_button = tk.Button(frame, text = "Scrub", command= main)
+scrub_button = tk.Button(frame, text = "Scrub", command= lambda:main(files_to_save[0]))
 scrub_button.pack(pady=10)
 
 # Label to display selected file path
