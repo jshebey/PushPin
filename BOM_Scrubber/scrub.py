@@ -11,12 +11,13 @@ class Scrub:
         self.partList = pyxl.Workbook()
         self.currSheet = self.partList.active
         self.partNumberCol = 'A'
-        self.valueCol = 'B'
-        self.sizeCol = 'C'
-        self.toleranceCol = 'D'
-        self.miscCol = 'E'
-        self.voltageCol = 'F'
-        self.rowCount = 1
+        self.manufacturerCol = 'B'
+        self.valueCol = 'C'
+        self.sizeCol = 'D'
+        self.toleranceCol = 'E'
+        self.miscCol = 'F'
+        self.voltageCol = 'G'
+        self.rowCount = 0
 
     def process_bom(self):
         #Loops over every part in the BOM
@@ -45,6 +46,7 @@ class Scrub:
     
     def add_part(self, part, schematicLabel):
         self.currSheet[self.partNumberCol + str(self.rowCount)] = part.partNumber
+        self.currSheet[self.manufacturerCol + str(self.rowCount)] = part.manufacturer
         if(schematicLabel[0] == 'R'):
             self.currSheet[self.valueCol + str(self.rowCount)] = part.resistance
             self.currSheet[self.miscCol + str(self.rowCount)] = part.power

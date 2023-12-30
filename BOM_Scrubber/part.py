@@ -255,7 +255,11 @@ class Part:
             #Searches voltage table
             self.voltage = next((item[1] for item in self.data[10] if item[0] == self.data[9]), 'UNKNOWN') 
         else:
-            self.voltage = self.data[9]   
+            if(self.manufacturer == 'Meritek (MA series)'):
+                voltage = self.data[9]
+                self.voltage = str(int(voltage[0:2]) * 10 ** int(voltage[2])) + ' V'
+            else:
+                self.voltage = self.data[9] + ' V'
         
         #Logic for determining capacitance
         #When capacitance code is 3, or 4 digits, and can have R (for decimals) and last digit is multiplier
